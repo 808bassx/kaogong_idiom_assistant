@@ -414,8 +414,6 @@ MIT License
 
 ## 📞 联系
 
-项目主页: https://github.com/yourname/kaogong_idiom_assistant
+项目主页: https://github.com/808bassx/kaogong_idiom_assistant
 
 ---
-
-**祝您考公顺利，成语功力大增！** 🎉
