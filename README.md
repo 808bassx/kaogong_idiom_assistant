@@ -23,29 +23,6 @@
 
 ---
 
-## 🏗️ 技术架构
-
-```
-┌─────────────────────────────────────────────────┐
-│                  Flutter 前端                    │
-│          Material Design 3 / Provider            │
-│     Windows │ Linux │ macOS │ Android            │
-└──────────────────────┬──────────────────────────┘
-                       │ HTTP REST API
-                       ▼
-┌─────────────────────────────────────────────────┐
-│                Python 后端 (FastAPI)              │
-│            SQLAlchemy + SQLite + AI Service       │
-└──────────┬──────────────────────────┬────────────┘
-           │                          │
-           ▼                          ▼
-┌──────────────────┐    ┌──────────────────────────┐
-│   Ollama 服务     │    │   llama.cpp HTTP Server  │
-│  (Qwen/DeepSeek/  │    │   (GGUF 模型文件)         │
-│   Llama/GLM...)   │    │                          │
-└──────────────────┘    └──────────────────────────┘
-```
-
 ### 技术栈
 
 - **前端**: Flutter 3.x + Dart, Provider 状态管理, Material Design 3
@@ -53,85 +30,6 @@
 - **AI 引擎**: Ollama (默认), llama.cpp (备选)
 - **数据库**: SQLite (本地文件存储)
 - **支持模型**: Qwen3, Qwen2.5, DeepSeek, GLM, Llama, Gemma, Mistral 等
-
----
-
-## 📦 项目结构
-
-```
-kaogong_idiom_assistant/
-├── backend/                          # Python 后端
-│   ├── app/
-│   │   ├── main.py                   # FastAPI 主应用
-│   │   ├── config.py                 # 配置文件
-│   │   ├── database.py               # 数据库连接
-│   │   ├── models.py                 # ORM 模型
-│   │   ├── schemas.py                # Pydantic 验证
-│   │   ├── ai/
-│   │   │   ├── ollama_client.py      # Ollama 客户端
-│   │   │   └── __init__.py
-│   │   ├── services/
-│   │   │   ├── ai_service.py         # AI 服务层
-│   │   │   ├── review_service.py     # 复习服务
-│   │   │   └── stats_service.py      # 统计服务
-│   │   └── routers/
-│   │       ├── words.py              # 词库管理
-│   │       ├── chat.py               # AI 对话
-│   │       ├── study.py              # 学习记录
-│   │       ├── review.py             # 复习管理
-│   │       ├── quiz.py               # 抽查模式
-│   │       ├── favorites.py          # 收藏管理
-│   │       ├── stats.py              # 数据统计
-│   │       ├── export.py             # 数据导出
-│   │       ├── import_api.py          # 数据导入
-│   │       ├── settings.py           # 应用设置
-│   │       └── prompt.py             # Prompt 管理
-│   ├── requirements.txt
-│   ├── run.py                        # 启动脚本
-│   └── .env                          # 环境配置
-│
-├── flutter_app/                      # Flutter 前端
-│   ├── lib/
-│   │   ├── main.dart                 # 入口文件
-│   │   ├── app.dart                  # 主导航
-│   │   ├── config/
-│   │   │   ├── theme.dart            # 主题配置
-│   │   │   └── constants.dart        # 常量定义
-│   │   ├── models/
-│   │   │   ├── word.dart             # 词语模型
-│   │   │   └── chat_message.dart     # 消息模型
-│   │   ├── services/
-│   │   │   └── api_service.dart      # API 服务
-│   │   ├── providers/
-│   │   │   ├── theme_provider.dart   # 主题管理
-│   │   │   ├── word_provider.dart    # 词库管理
-│   │   │   ├── chat_provider.dart    # 对话管理
-│   │   │   └── settings_provider.dart # 设置管理
-│   │   ├── screens/
-│   │   │   ├── home_screen.dart      # 首页
-│   │   │   ├── chat_screen.dart      # AI 对话
-│   │   │   ├── word_list_screen.dart # 词库列表
-│   │   │   ├── word_detail_screen.dart # 词语详情
-│   │   │   ├── search_screen.dart    # 搜索
-│   │   │   ├── quiz_screen.dart      # 抽查模式
-│   │   │   ├── review_screen.dart    # 每日复习
-│   │   │   ├── stats_screen.dart     # 数据统计
-│   │   │   ├── settings_screen.dart  # 设置
-│   │   │   └── prompt_screen.dart    # Prompt 管理
-│   │   └── widgets/
-│   │       ├── word_card.dart        # 词语卡片
-│   │       ├── loading_indicator.dart # 加载动画
-│   │       └── empty_widget.dart     # 空状态
-│   └── pubspec.yaml
-│
-├── build_scripts/
-│   ├── build_windows.bat             # Windows 构建
-│   ├── build_android.bat             # Android 构建
-│   └── build_linux.sh                # Linux 构建
-│
-├── README.md
-└── .gitignore
-```
 
 ---
 
@@ -243,56 +141,7 @@ flutter run -d emulator-5554
 - 数据库备份和恢复
 - System Prompt 管理
 
----
 
-## 🗄️ 数据库设计
-
-### words（词库表）
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | INTEGER PK | 主键 |
-| word | VARCHAR(50) | 成语词语 |
-| pinyin | VARCHAR(200) | 拼音 |
-| meaning | TEXT | 释义 |
-| source | VARCHAR(500) | 出处 |
-| usage | TEXT | 用法 |
-| example | TEXT | 例句 |
-| synonym | VARCHAR(500) | 近义词 |
-| antonym | VARCHAR(500) | 反义词 |
-| confusable | VARCHAR(500) | 易混词 |
-| memory_tip | TEXT | 记忆技巧 |
-| tags | VARCHAR(200) | 标签 |
-| is_mastered | BOOLEAN | 是否掌握 |
-| review_count | INTEGER | 复习次数 |
-| error_count | INTEGER | 错误次数 |
-| is_favorite | BOOLEAN | 是否收藏 |
-| notes | TEXT | 备注 |
-| created_at | DATETIME | 创建时间 |
-| updated_at | DATETIME | 更新时间 |
-| last_reviewed_at | DATETIME | 最后复习时间 |
-
-### study_history（学习历史）
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | INTEGER PK | 主键 |
-| word_id | INTEGER | 词语ID |
-| word | VARCHAR(50) | 词语 |
-| action | VARCHAR(20) | 操作类型 |
-| score | INTEGER | 得分 |
-| created_at | DATETIME | 学习时间 |
-
-### review_records（复习记录）
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | INTEGER PK | 主键 |
-| word_id | INTEGER | 词语ID |
-| stage | INTEGER | 复习阶段 |
-| next_review_date | DATE | 下次复习日期 |
-| is_completed | BOOLEAN | 是否完成 |
-| correct_count | INTEGER | 正确次数 |
-| wrong_count | INTEGER | 错误次数 |
-
-更多表结构请查看 [models.py](backend/app/models.py)。
 
 ---
 
@@ -338,20 +187,30 @@ LLAMACPP_API_URL=http://localhost:8080
 
 ## 🖥️ 打包部署
 
+### 环境变量（中国大陆镜像加速）
+
+```bash
+export PUB_HOSTED_URL="https://pub.flutter-io.cn"
+export FLUTTER_STORAGE_BASE_URL="https://storage.flutter-io.cn"
+export ANDROID_HOME="C:/Users/<用户名>/Android"   # Android 打包需要
+```
+
 ### Windows 打包
 
 ```bash
-cd build_scripts
-./build_windows.bat
+cd flutter_app
+flutter build windows --release
 ```
 
-产物: `dist/kaogong_idiom_win/`
+产物: `flutter_app/build/windows/x64/runner/Release/`
+已打包至: `dist/kaogong_idiom_win/`（含后端 + 启动脚本）
 
 ### Android 打包
 
 ```bash
-cd build_scripts
-./build_android.bat
+cd flutter_app
+flutter build apk --release       # APK
+flutter build appbundle --release # AAB（上架 Google Play）
 ```
 
 产物:
@@ -361,12 +220,11 @@ cd build_scripts
 ### Linux 打包
 
 ```bash
-cd build_scripts
-chmod +x build_linux.sh
-./build_linux.sh
+cd flutter_app
+flutter build linux --release
 ```
 
-产物: `dist/kaogong_idiom_linux/`
+产物: `flutter_app/build/linux/x64/release/bundle/`
 
 ---
 

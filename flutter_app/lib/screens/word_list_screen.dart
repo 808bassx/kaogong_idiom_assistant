@@ -105,7 +105,7 @@ class _WordListScreenState extends State<WordListScreen> {
         MaterialPageRoute(
           builder: (_) => WordDetailScreen(
             word: WordModel(
-              id: '',
+              id: -1,
               word: input,
               pinyin: '',
               meaning: '',
@@ -115,7 +115,6 @@ class _WordListScreenState extends State<WordListScreen> {
               reviewCount: 0,
               errorCount: 0,
             ),
-            isNewWord: true,
           ),
         ),
       );
